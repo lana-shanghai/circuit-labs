@@ -11,11 +11,12 @@ const Header: FC<HeaderProps> = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const links = [
-    { href: "#home", label: "Home" },
-    { href: "#about", label: "About" },
-    { href: "#solutions", label: "Solutions" },
-    { href: "#research", label: "Research" },
-    { href: "#contact", label: "Contact" },
+    { href: "/#home", label: "Home" },
+    { href: "/#about", label: "About" },
+    { href: "/#solutions", label: "Solutions" },
+    { href: "/#research", label: "Research" },
+    { href: "/qlossary", label: "Qlossary" },
+    { href: "/#contact", label: "Contact" },
   ];
 
   return (
@@ -33,7 +34,7 @@ const Header: FC<HeaderProps> = () => {
           />
 
           <Link
-            href="#home"
+            href="/#home"
             className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent text-xl sm:text-3xl font-orbitron font-bold"
           >
             CircuitLabs
