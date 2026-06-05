@@ -1,13 +1,10 @@
 'use client';
 
-import React, { FC, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 
-
-interface HeaderProps {}
-
-const Header: FC<HeaderProps> = () => {
+const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const links = [
@@ -16,6 +13,7 @@ const Header: FC<HeaderProps> = () => {
     { href: "/#solutions", label: "Solutions" },
     { href: "/#research", label: "Research" },
     { href: "/qlossary", label: "Qlossary" },
+    { href: "/workshops", label: "Workshops" },
     { href: "/#contact", label: "Contact" },
   ];
 
@@ -42,7 +40,7 @@ const Header: FC<HeaderProps> = () => {
         </div>
 
         {/* Десктопная навигация */}
-        <nav className="hidden md:flex space-x-6 font-orbitron text-lg md:text-xl">
+        <nav className="hidden lg:flex gap-4 xl:gap-6 font-orbitron text-base xl:text-xl">
           {links.map((link) => (
             <Link
               key={link.href}
@@ -58,7 +56,10 @@ const Header: FC<HeaderProps> = () => {
         {/* Кнопка гамбургера */}
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="md:hidden text-white focus:outline-none z-50"
+          className="lg:hidden text-white focus:outline-none z-50"
+          aria-label={isMenuOpen ? "Close main menu" : "Open main menu"}
+          aria-expanded={isMenuOpen}
+          aria-controls="main-menu"
         >
           <svg
             className="w-6 h-6"
@@ -80,11 +81,12 @@ const Header: FC<HeaderProps> = () => {
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
+            id="main-menu"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden bg-gray-900 border-t border-gray-800"
+            className="lg:hidden bg-gray-900 border-t border-gray-800"
           >
             <nav className="flex flex-col space-y-4 px-6 py-6 font-orbitron">
               {links.map((link) => (
