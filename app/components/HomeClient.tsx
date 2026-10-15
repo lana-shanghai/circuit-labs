@@ -5,7 +5,7 @@ import Header from "./Header";
 import Main from "./Main";
 import About from "./About";
 import Solutions from "./Solutions";
-import Research from "./Research";
+import Blog from "./Blog";
 import Footer from "./Footer";
 
 const containerVariants = {
@@ -59,7 +59,7 @@ export default function HomeClient() {
           variants={sectionVariants}
           className="snap-start"
         >
-          <Research />
+          <Blog />
         </motion.section>
 
         <motion.section 

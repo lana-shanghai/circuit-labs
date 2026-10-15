@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import { BlockMath } from "react-katex";
 import {
   Calculator,
   CheckCircle2,
@@ -75,11 +76,6 @@ const badgeClasses = {
     "rounded-md bg-cyan-500/15 px-2 py-0.5 font-orbitron text-[10px] font-semibold uppercase tracking-wide text-cyan-300 ring-1 ring-cyan-500/35",
 };
 
-const decimalRegisterStates = Array.from({ length: 16 }, (_, value) => `|${value}>`);
-const binaryRegisterStates = Array.from(
-  { length: 16 },
-  (_, value) => `|${value.toString(2).padStart(4, "0")}>`
-);
 const modExpValues = Array.from({ length: 16 }, (_, x) => modPow(2, x, 15));
 const modExpTableLines = Array.from(
   { length: 16 },
@@ -90,13 +86,13 @@ const modExpTableLines = Array.from(
       .toString(2)
       .padStart(4, "0")})`
 );
-const totalPowerStateLines = Array.from(
+const totalPowerStateLatexLines = Array.from(
   { length: 16 },
-  (_, x) => `|${x}> |2^${x} mod 15>`
+  (_, x) => String.raw`\lvert${x}\rangle\lvert2^{${x}}\bmod15\rangle`
 );
-const totalValueStateLines = Array.from(
+const totalValueStateLatexLines = Array.from(
   { length: 16 },
-  (_, x) => `|${x}> |${modExpValues[x]}>`
+  (_, x) => String.raw`\lvert${x}\rangle\lvert${modExpValues[x]}\rangle`
 );
 
 function gcd(first: number, second: number) {
@@ -340,13 +336,29 @@ function pairedUnitValue(value: number) {
 }
 
 function EquationBlock({
+  latex = false,
   lines,
   tone = "cyan",
 }: {
+  latex?: boolean;
   lines: string[];
   tone?: "cyan" | "amber";
 }) {
   const textColor = tone === "cyan" ? "text-cyan-100" : "text-amber-100";
+
+  if (latex) {
+    return (
+      <div
+        className={`mt-4 overflow-x-auto rounded-lg border border-white/10 bg-[#080a13] p-4 text-sm leading-relaxed ${textColor}`}
+      >
+        <div className="min-w-max space-y-3">
+          {lines.map((line, index) => (
+            <BlockMath key={`${line}-${index}`} math={line} />
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <pre
@@ -929,15 +941,16 @@ export default function ShorsAlgorithmClient() {
                 means e * d leaves remainder 1 when divided by phi(N).
               </p>
               <EquationBlock
+                latex
                 lines={[
-                  "p = 5, q = 11",
-                  "N = p * q = 55",
-                  "phi(N) = (p - 1)(q - 1) = 4 * 10 = 40",
-                  "choose e = 3 because gcd(3, 40) = 1",
-                  "find d so e * d = 1 mod 40",
-                  "d = 27 because 3 * 27 = 81 = 1 mod 40",
-                  "public key:  (N, e) = (55, 3)",
-                  "private key: (N, d) = (55, 27)",
+                  String.raw`p=5,\quad q=11`,
+                  String.raw`N=pq=55`,
+                  String.raw`\phi(N)=(p-1)(q-1)=4\cdot10=40`,
+                  String.raw`\gcd(3,40)=1`,
+                  String.raw`3d\equiv1\pmod{40}`,
+                  String.raw`d=27\quad\text{because}\quad3\cdot27=81\equiv1\pmod{40}`,
+                  String.raw`\text{public key: }(N,e)=(55,3)`,
+                  String.raw`\text{private key: }(N,d)=(55,27)`,
                 ]}
               />
             </div>
@@ -1126,11 +1139,11 @@ export default function ShorsAlgorithmClient() {
                 base a = 2, the values repeat.
               </p>
               <EquationBlock
+                latex
                 lines={[
-                  "f(x) = 2^x mod 15",
-                  "x:    0, 1, 2, 3, 4, 5, 6, 7, ...",
-                  "f(x): 1, 2, 4, 8, 1, 2, 4, 8, ...",
-                  "period r = 4",
+                  String.raw`f(x)=2^x\bmod 15`,
+                  String.raw`\begin{array}{c|cccccccc}x&0&1&2&3&4&5&6&7\\\hline f(x)&1&2&4&8&1&2&4&8\end{array}`,
+                  String.raw`r=4`,
                 ]}
               />
             </div>
@@ -1153,11 +1166,12 @@ export default function ShorsAlgorithmClient() {
                 4. The gcd calls reveal the factors.
               </p>
               <EquationBlock
+                latex
                 lines={[
-                  "a^(r/2) = 2^(4/2) = 2^2 = 4",
-                  "gcd(4 - 1, 15) = gcd(3, 15) = 3",
-                  "gcd(4 + 1, 15) = gcd(5, 15) = 5",
-                  "factors found: 3 and 5",
+                  String.raw`a^{r/2}=2^{4/2}=2^2=4`,
+                  String.raw`\gcd(4-1,15)=\gcd(3,15)=3`,
+                  String.raw`\gcd(4+1,15)=\gcd(5,15)=5`,
+                  String.raw`\text{factors found: }3\text{ and }5`,
                 ]}
               />
             </div>
@@ -1228,16 +1242,14 @@ export default function ShorsAlgorithmClient() {
                 multiplying the matrix by the state vector.
               </p>
               <EquationBlock
+                latex
                 lines={[
-                  "|psi> = alpha|0> + beta|1> = [alpha, beta]^T",
-                  "",
-                  "[a b] [alpha] = [a alpha + b beta]",
-                  "[c d] [ beta]   [c alpha + d beta]",
-                  "",
-                  "X|0> = |1>",
-                  "Z(alpha|0> + beta|1>) = alpha|0> - beta|1>",
-                  "H|0> = (|0> + |1>) / sqrt(2)",
-                  "R_theta(alpha|0> + beta|1>) = alpha|0> + e^(i theta) beta|1>",
+                  String.raw`\lvert\psi\rangle=\alpha\lvert0\rangle+\beta\lvert1\rangle=\begin{bmatrix}\alpha\\\beta\end{bmatrix}`,
+                  String.raw`\begin{bmatrix}a&b\\c&d\end{bmatrix}\begin{bmatrix}\alpha\\\beta\end{bmatrix}=\begin{bmatrix}a\alpha+b\beta\\c\alpha+d\beta\end{bmatrix}`,
+                  String.raw`X\lvert0\rangle=\lvert1\rangle`,
+                  String.raw`Z(\alpha\lvert0\rangle+\beta\lvert1\rangle)=\alpha\lvert0\rangle-\beta\lvert1\rangle`,
+                  String.raw`H\lvert0\rangle=\frac{\lvert0\rangle+\lvert1\rangle}{\sqrt2}`,
+                  String.raw`R_\theta(\alpha\lvert0\rangle+\beta\lvert1\rangle)=\alpha\lvert0\rangle+e^{i\theta}\beta\lvert1\rangle`,
                 ]}
               />
             </div>
@@ -1384,12 +1396,11 @@ export default function ShorsAlgorithmClient() {
                 behavior, but with probability amplitudes.
               </p>
               <EquationBlock
+                latex
                 lines={[
-                  "R_theta(alpha|0> + beta|1>)",
-                  "  = alpha|0> + e^(i theta) beta|1>",
-                  "",
-                  "theta changes the relative phase between the two parts.",
-                  "Later, good phases line up; bad phases cancel.",
+                  String.raw`R_\theta(\alpha\lvert0\rangle+\beta\lvert1\rangle)=\alpha\lvert0\rangle+e^{i\theta}\beta\lvert1\rangle`,
+                  String.raw`\theta\text{ changes the relative phase between the two parts.}`,
+                  String.raw`\text{Later, good phases line up; bad phases cancel.}`,
                 ]}
               />
             </div>
@@ -1409,12 +1420,11 @@ export default function ShorsAlgorithmClient() {
                 Before the gate, |+i&gt; means:
               </p>
               <EquationBlock
+                latex
                 lines={[
-                  "|+i> = (1 / sqrt(2))|0> + (i / sqrt(2))|1>",
-                  "",
-                  "H = (1 / sqrt(2)) [[1, 1], [1, -1]]",
-                  "",
-                  "Find H|+i>.",
+                  String.raw`\lvert+i\rangle=\frac{1}{\sqrt2}\lvert0\rangle+\frac{i}{\sqrt2}\lvert1\rangle`,
+                  String.raw`H=\frac{1}{\sqrt2}\begin{bmatrix}1&1\\1&-1\end{bmatrix}`,
+                  String.raw`\text{Find }H\lvert+i\rangle.`,
                 ]}
               />
               <div className="mt-5 grid gap-4 sm:grid-cols-2">
@@ -1484,13 +1494,12 @@ export default function ShorsAlgorithmClient() {
                 </div>
               </div>
               <EquationBlock
+                latex
                 lines={[
-                  "Start with |00>",
-                  "Apply H to the first qubit:",
-                  "(|00> + |10>) / sqrt(2)",
-                  "Apply CNOT with first qubit as control:",
-                  "(|00> + |11>) / sqrt(2)",
-                  "This is a Bell state.",
+                  String.raw`\lvert00\rangle`,
+                  String.raw`\xrightarrow{H\text{ on first qubit}}\frac{\lvert00\rangle+\lvert10\rangle}{\sqrt2}`,
+                  String.raw`\xrightarrow{\mathrm{CNOT}}\frac{\lvert00\rangle+\lvert11\rangle}{\sqrt2}`,
+                  String.raw`\text{This is a Bell state.}`,
                 ]}
               />
             </div>
@@ -1577,15 +1586,11 @@ export default function ShorsAlgorithmClient() {
                 creates an equal superposition over all 16 labels at once.
               </p>
               <EquationBlock
+                latex
                 lines={[
-                  "H on each qubit:",
-                  "|0000> -> (1/4)(|0000> + |0001> + ... + |1111>)",
-                  "",
-                  "Decimal labels:",
-                  decimalRegisterStates.join(" + "),
-                  "",
-                  "Binary labels:",
-                  binaryRegisterStates.join(" + "),
+                  String.raw`H^{\otimes4}\lvert0000\rangle=\frac14\sum_{x=0}^{15}\lvert x\rangle`,
+                  String.raw`=\frac14(\lvert0\rangle+\lvert1\rangle+\lvert2\rangle+\lvert3\rangle+\cdots+\lvert15\rangle)`,
+                  String.raw`=\frac14(\lvert0000\rangle+\lvert0001\rangle+\lvert0010\rangle+\lvert0011\rangle+\cdots+\lvert1111\rangle)`,
                 ]}
               />
             </div>
@@ -1631,16 +1636,11 @@ export default function ShorsAlgorithmClient() {
                 function, then replace the function with the actual values.
               </p>
               <EquationBlock
+                latex
                 lines={[
-                  "(1/4)(",
-                  ...totalPowerStateLines.map((line) => `  ${line}`),
-                  ")",
-                  "",
-                  "which equals",
-                  "",
-                  "(1/4)(",
-                  ...totalValueStateLines.map((line) => `  ${line}`),
-                  ")",
+                  String.raw`\frac14\left(${totalPowerStateLatexLines.join("+")}\right)`,
+                  String.raw`\text{which equals}`,
+                  String.raw`\frac14\left(${totalValueStateLatexLines.join("+")}\right)`,
                 ]}
               />
             </div>
@@ -1715,20 +1715,13 @@ export default function ShorsAlgorithmClient() {
                 values are spaced by 4, which is the period.
               </p>
               <EquationBlock
+                latex
                 lines={[
-                  "measure second register = |0001>",
-                  "first register left alive: |0> + |4> + |8> + |12>",
-                  "",
-                  "measure second register = |0010>",
-                  "first register left alive: |1> + |5> + |9> + |13>",
-                  "",
-                  "measure second register = |0100>",
-                  "first register left alive: |2> + |6> + |10> + |14>",
-                  "",
-                  "measure second register = |1000>",
-                  "first register left alive: |3> + |7> + |11> + |15>",
-                  "",
-                  "Each row is a comb with spacing 4.",
+                  String.raw`\text{measure second register }=\lvert0001\rangle\Rightarrow\lvert0\rangle+\lvert4\rangle+\lvert8\rangle+\lvert12\rangle`,
+                  String.raw`\text{measure second register }=\lvert0010\rangle\Rightarrow\lvert1\rangle+\lvert5\rangle+\lvert9\rangle+\lvert13\rangle`,
+                  String.raw`\text{measure second register }=\lvert0100\rangle\Rightarrow\lvert2\rangle+\lvert6\rangle+\lvert10\rangle+\lvert14\rangle`,
+                  String.raw`\text{measure second register }=\lvert1000\rangle\Rightarrow\lvert3\rangle+\lvert7\rangle+\lvert11\rangle+\lvert15\rangle`,
+                  String.raw`\text{Each row is a comb with spacing }4.`,
                 ]}
               />
             </div>
@@ -1749,15 +1742,10 @@ export default function ShorsAlgorithmClient() {
                 frequency outputs.
               </p>
               <EquationBlock
+                latex
                 lines={[
-                  "signal = [s0, s1, s2, s3]^T",
-                  "",
-                  "DFT_4(signal) = (1/2) *",
-                  "[[1,  1,  1,  1],",
-                  " [1,  i, -1, -i],",
-                  " [1, -1,  1, -1],",
-                  " [1, -i, -1,  i]]",
-                  "* [s0, s1, s2, s3]^T",
+                  String.raw`\mathbf{s}=\begin{bmatrix}s_0\\s_1\\s_2\\s_3\end{bmatrix}`,
+                  String.raw`\mathrm{DFT}_4(\mathbf{s})=\frac12\begin{bmatrix}1&1&1&1\\1&i&-1&-i\\1&-1&1&-1\\1&-i&-1&i\end{bmatrix}\begin{bmatrix}s_0\\s_1\\s_2\\s_3\end{bmatrix}`,
                 ]}
               />
             </div>
@@ -1778,14 +1766,11 @@ export default function ShorsAlgorithmClient() {
                 a frequency-like view, so periodic structure shows up as peaks.
               </p>
               <EquationBlock
+                latex
                 lines={[
-                  "Generic QFT formula:",
-                  "QFT_N |x> = (1 / sqrt(N)) sum_{y=0}^{N-1} e^(2 pi i x y / N) |y>",
-                  "",
-                  "For the 4 x 4 case:",
-                  "QFT_4 |x> = (1 / 2) sum_{y=0}^{3} e^((i pi / 2) x y) |y>",
-                  "",
-                  "Same idea: signal pattern in, frequency peaks out.",
+                  String.raw`\mathrm{QFT}_N\lvert x\rangle=\frac{1}{\sqrt N}\sum_{y=0}^{N-1}e^{2\pi ixy/N}\lvert y\rangle`,
+                  String.raw`\mathrm{QFT}_4\lvert x\rangle=\frac12\sum_{y=0}^{3}e^{(i\pi/2)xy}\lvert y\rangle`,
+                  String.raw`\text{Same idea: signal pattern in, frequency peaks out.}`,
                 ]}
               />
             </div>
@@ -1806,12 +1791,12 @@ export default function ShorsAlgorithmClient() {
                 bad y, they cancel.
               </p>
               <EquationBlock
+                latex
                 lines={[
-                  "phase rule: e^(2 pi i x y / 16)",
-                  "comb x values: 0, 4, 8, 12",
-                  "",
-                  "Write the four phases for y = 4.",
-                  "Then write the four phases for y = 5.",
+                  String.raw`\text{phase rule: }e^{2\pi ixy/16}`,
+                  String.raw`x\in\{0,4,8,12\}`,
+                  String.raw`\text{Write the four phases for }y=4.`,
+                  String.raw`\text{Then write the four phases for }y=5.`,
                 ]}
               />
               <div className="mt-5 grid gap-4 sm:grid-cols-2">
