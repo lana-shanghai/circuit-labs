@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Orbitron, Roboto, Lora, Fira_Code } from "next/font/google";
 import "./globals.css";
+import "katex/dist/katex.min.css";
 import { StructuredData } from "./components/StructuredData";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });

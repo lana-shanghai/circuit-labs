@@ -37,3 +37,14 @@ body {
 .font-roboto { font-family: var(--font-roboto); }
 .font-lora { font-family: var(--font-lora); }
 .font-mono { font-family: var(--font-mono); }
+
+.katex,
+.katex-display {
+  color: inherit;
+}
+
+.katex-display {
+  margin: 0.35rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
