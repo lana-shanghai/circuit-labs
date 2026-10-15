@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 export default function Footer() {
   const [fullname, setFullName] = useState("");
   const [message, setMessage] = useState("");
+  const [website, setWebsite] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "error" | "success">("idle");
 
   const handleSendEmail = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -22,7 +23,7 @@ export default function Footer() {
       const res = await fetch("/api/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fullname, message }),
+        body: JSON.stringify({ fullname, message, website }),
       });
 
       if (res.ok) {
@@ -63,7 +64,19 @@ export default function Footer() {
             value={fullname}
             onChange={(e) => setFullName(e.target.value)}
             required
+            maxLength={100}
             className="bg-[#101223] border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-400"
+          />
+
+          <input
+            type="text"
+            name="website"
+            value={website}
+            onChange={(e) => setWebsite(e.target.value)}
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+            className="absolute -left-[9999px] w-px h-px opacity-0"
           />
 
           <textarea
@@ -72,6 +85,7 @@ export default function Footer() {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             required
+            maxLength={5000}
             className="bg-[#101223] border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-400 resize-none h-28 w-full"
           />
 
