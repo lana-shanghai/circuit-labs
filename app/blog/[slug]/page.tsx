@@ -26,21 +26,30 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 function renderParagraph(paragraph: Paragraph) {
   if (typeof paragraph === "string") return paragraph;
-  return paragraph.map((segment, i) =>
-    typeof segment === "string" ? (
-      segment
-    ) : (
-      <a
-        key={i}
-        href={segment.href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-[#7eb8c9] underline decoration-[#7eb8c9]/35 underline-offset-[3px] hover:text-[#9fd0dd] hover:decoration-[#9fd0dd]/60 transition-colors"
-      >
-        {segment.text}
-      </a>
-    )
-  );
+  return paragraph.map((segment, i) => {
+    if (typeof segment === "string") return segment;
+    if ("bold" in segment && segment.bold) {
+      return (
+        <strong key={i} className="font-semibold text-[#c5d0de]">
+          {segment.text}
+        </strong>
+      );
+    }
+    if ("href" in segment) {
+      return (
+        <a
+          key={i}
+          href={segment.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-[#7eb8c9] underline decoration-[#7eb8c9]/35 underline-offset-[3px] hover:text-[#9fd0dd] hover:decoration-[#9fd0dd]/60 transition-colors"
+        >
+          {segment.text}
+        </a>
+      );
+    }
+    return null;
+  });
 }
 
 function renderBlock(block: ContentBlock, key: number) {

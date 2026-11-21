@@ -1,4 +1,7 @@
-export type InlineSegment = string | { text: string; href: string };
+export type InlineSegment =
+  | string
+  | { text: string; href: string }
+  | { text: string; bold: true };
 
 export type Paragraph = string | InlineSegment[];
 
@@ -39,6 +42,7 @@ const img = (src: string, alt: string, caption?: string): ContentBlock => ({
 });
 const ul = (...items: Paragraph[]): ContentBlock => ({ type: "ul", items });
 const a = (text: string, href: string) => ({ text, href });
+const b = (text: string): InlineSegment => ({ text, bold: true });
 
 export const blogPosts: BlogPost[] = [
   {
@@ -426,9 +430,14 @@ export const blogPosts: BlogPost[] = [
           p(
             "To put these requirements into perspective, consider the hardware needed to execute the attacks discussed earlier. Google's 2026 secp256k1 estimates involve two circuit designs: 1,200 logical qubits and 90 million Toffoli gates, or 1,450 logical qubits and 70 million gates. Assuming a superconducting architecture with a physical error rate of 0.1%, researchers estimate that fewer than 500,000 physical qubits could complete the attack in just 18–23 minutes."
           ),
-          p(
-            "RSA-2048 provides a striking example of how these requirements evolve. In 2019, factoring RSA-2048 was estimated to require 20 million physical qubits and eight hours. By 2025, algorithmic improvements had brought that estimate below one million physical qubits, with an execution time of less than a week."
-          ),
+          p([
+            "RSA-2048 provides a striking example of how these requirements evolve. In 2019, factoring RSA-2048 was estimated to require 20 million physical qubits and eight hours. By 2025, ",
+            a(
+              "Craig Gidney's updated analysis",
+              "https://arxiv.org/abs/2505.15917"
+            ),
+            " had brought that estimate below one million physical qubits, with an execution time of less than a week.",
+          ]),
           p(
             "These estimates describe hypothetical fault-tolerant machines, but show how algorithmic improvements can substantially reduce hardware requirements, with trade-offs between qubit count and execution time."
           ),
@@ -441,16 +450,6 @@ export const blogPosts: BlogPost[] = [
           p(
             "However, neither frontier can be represented accurately by a single number. Circuit optimizations involve trade-offs between memory and execution time, while hardware architectures have different gate speeds, error rates, and connectivity."
           ),
-          h3("Why this matters"),
-          p(
-            "The arrival of a cryptographically relevant quantum computer remains uncertain. If I had to pick a year, I would say 2038."
-          ),
-          p(
-            "The technical assumptions underlying estimates of its arrival are constantly changing. This is the signal the cryptographic industry should be watching: the rate at which the remaining engineering problem is being reduced."
-          ),
-          p(
-            "And because cryptographic migration itself takes time, decisions about quantum readiness must account for this changing risk long before a successful large-scale attack is demonstrated."
-          ),
           h3("When might a cryptographically relevant quantum computer actually arrive?"),
           p([
             "Expert forecasts vary considerably, but the 2030s are increasingly considered plausible. A ",
@@ -460,6 +459,19 @@ export const blogPosts: BlogPost[] = [
             ),
             " placed the likelihood of a CRQC emerging within ten years at 28–49%, rising to 51–70% within fifteen years.",
           ]),
+          p(["If I had to pick a year, I would say ", b("2038"), "."]),
+          h3("Why this matters"),
+          p(
+            "The exact arrival date remains uncertain, and the technical assumptions behind these predictions are constantly changing."
+          ),
+          p([
+            "The signal the cryptographic industry should be watching is ",
+            b("the rate at which the remaining engineering challenges are being overcome"),
+            ".",
+          ]),
+          p(
+            "Cryptographic migration takes years. Decisions about quantum readiness must therefore account for this evolving risk long before a successful large-scale attack is demonstrated."
+          ),
         ],
       },
     ],
