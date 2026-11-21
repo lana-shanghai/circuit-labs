@@ -10,6 +10,9 @@ export type GlossaryCategoryId =
 export interface GlossaryEntry {
   term: string;
   definition: string;
+  /** Path under /public, e.g. /qlossary/images/gate.png */
+  image?: string;
+  imageAlt?: string;
 }
 
 export interface GlossarySection {
@@ -236,12 +239,23 @@ export const glossarySections: GlossarySection[] = [
       {
         term: "Quantum gate",
         definition:
-          "A basic operation on one or more qubits, typically represented by a unitary matrix.",
+          "A quantum gate is an elementary operation that transforms the state of one or more qubits. Quantum gates are mathematically represented by unitary operators, allowing them to manipulate amplitudes and phases while preserving the total probability. Common examples include the Hadamard (H), Pauli-X (X), and controlled-NOT (CNOT) gates.",
+        image: "/qlossary/images/gate.png",
+        imageAlt: "Hadamard gate turning |0⟩ into |+⟩",
+      },
+      {
+        term: "Circuit",
+        definition:
+          "A computational circuit is an arrangement of gates connected by wires that specifies how a computation is performed. Gates process information in a defined order, and some operations can execute in parallel. Circuit width describes the number of wires, while circuit depth measures the number of sequential layers of operations.",
+        image: "/qlossary/images/circuit.png",
+        imageAlt: "Circuit diagram showing gates on wires, with width and depth labeled",
       },
       {
         term: "Quantum circuit",
         definition:
-          "A sequence of gates, measurements, and resets arranged to implement a computation.",
+          "A quantum circuit is a sequence of quantum operations acting on qubits, represented by wires and gate symbols. It describes how quantum states are prepared, transformed, entangled, and measured. Quantum circuits are the standard computational model for programmable gate-based quantum computers.",
+        image: "/qlossary/images/quantum_circuit.png",
+        imageAlt: "Quantum circuit with qubits, gates, entanglement, and measurement",
       },
       {
         term: "Circuit depth",
@@ -458,9 +472,11 @@ export const glossarySections: GlossarySection[] = [
           "The quantum circuit version of the discrete Fourier transform, heavily used in period-finding and phase-estimation routines.",
       },
       {
-        term: "Phase estimation",
+        term: "Quantum phase estimation (QPE)",
         definition:
-          "A foundational algorithmic primitive for learning eigenphases of a unitary or Hamiltonian.",
+          "Quantum phase estimation is an algorithm that estimates the phase associated with an eigenvalue of a unitary operator. It uses controlled quantum operations, interference, and an inverse quantum Fourier transform to extract an approximation of that phase. Phase estimation is a key component of Shor's algorithm for factoring integers and solving discrete logarithms.",
+        image: "/qlossary/images/phase_estimation.png",
+        imageAlt: "Quantum phase estimation circuit with controlled unitaries and inverse QFT",
       },
       {
         term: "Amplitude amplification",
@@ -495,12 +511,17 @@ export const glossarySections: GlossarySection[] = [
     terms: [
       {
         term: "Physical qubit",
-        definition: "A hardware-level qubit implemented directly in the device.",
+        definition:
+          "A physical qubit is a controllable quantum system used to store and manipulate quantum information. It can be implemented using superconducting circuits, trapped ions, neutral atoms, photons, or other physical systems. Physical qubits are susceptible to noise, decoherence, and errors during operations and measurements.",
+        image: "/qlossary/images/physical_qubit.png",
+        imageAlt: "Physical qubit platforms: superconducting, trapped ion, neutral atom, and photonic",
       },
       {
         term: "Logical qubit",
         definition:
-          "An error-corrected qubit encoded across many physical qubits so that errors can be detected and suppressed.",
+          "A logical qubit is an encoded unit of quantum information protected by quantum error correction, typically using multiple physical qubits. By distributing information across a larger quantum system and measuring error syndromes, errors can be detected and corrected without directly measuring the encoded quantum state.",
+        image: "/qlossary/images/logical_qubit.png",
+        imageAlt: "Logical qubit encoded across many physical qubits with syndrome checks",
       },
       {
         term: "Quantum error correction (QEC)",

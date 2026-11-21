@@ -90,9 +90,21 @@ export default function QlossaryClient() {
                               transition={{ duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
                               className="overflow-hidden border-t border-white/5"
                             >
-                              <p className="px-4 py-4 text-gray-400 text-sm sm:text-[15px] leading-relaxed">
-                                {entry.definition}
-                              </p>
+                              <div className="px-4 py-4 flex flex-col gap-4">
+                                <p className="text-gray-400 text-sm sm:text-[15px] leading-relaxed">
+                                  {entry.definition}
+                                </p>
+                                {entry.image && (
+                                  <div className="rounded-xl overflow-hidden border border-white/10 bg-white">
+                                    <img
+                                      src={entry.image}
+                                      alt={entry.imageAlt ?? entry.term}
+                                      className="w-full h-auto block"
+                                      loading="lazy"
+                                    />
+                                  </div>
+                                )}
+                              </div>
                             </motion.div>
                           )}
                         </AnimatePresence>
