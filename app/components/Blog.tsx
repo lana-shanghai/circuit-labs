@@ -37,18 +37,18 @@ export default function Blog() {
               transition={{ duration: 0.6 }}
               className="rounded-2xl border border-white/15 bg-white/5 backdrop-blur-lg p-6 md:p-8 hover:border-cyan-400/60 transition-colors"
             >
-              <h3 className="font-orbitron text-2xl md:text-3xl mb-3">
+              <h3 className="font-lora text-2xl md:text-3xl mb-3 font-medium tracking-tight">
                 <Link
                   href={`/blog/${post.slug}`}
-                  className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent hover:drop-shadow-[0_0_10px_rgba(0,255,255,0.5)] transition"
+                  className="text-[#d5dee8] hover:text-[#e8eef5] transition-colors"
                 >
                   {post.title}
                 </Link>
               </h3>
-              <p className="text-gray-400 leading-relaxed mb-5">{post.excerpt}</p>
+              <p className="text-[#8fa0b5] leading-relaxed mb-5">{post.excerpt}</p>
               <Link
                 href={`/blog/${post.slug}`}
-                className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 text-sm font-medium"
+                className="inline-flex items-center gap-2 text-[#7eb8c9] hover:text-[#9fd0dd] text-sm font-medium"
               >
                 Read post
                 <ArrowRight className="w-4 h-4" />
