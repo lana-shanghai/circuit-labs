@@ -10,7 +10,6 @@ const Header = () => {
   const links = [
     { href: "/#home", label: "Home" },
     { href: "/#about", label: "About" },
-    { href: "/#solutions", label: "Solutions" },
     { href: "/#blog", label: "Blog" },
     { href: "/qlossary", label: "Qlossary" },
     { href: "/workshops", label: "Workshops" },
