@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import Header from "./Header";
 import Main from "./Main";
 import About from "./About";
-import Solutions from "./Solutions";
 import Blog from "./Blog";
 import Footer from "./Footer";
 
@@ -46,13 +45,6 @@ export default function HomeClient() {
           className="snap-start"
         >
           <About />
-        </motion.section>
-
-        <motion.section 
-          variants={sectionVariants}
-          className="snap-start"
-        >
-          <Solutions />
         </motion.section>
 
         <motion.section 
