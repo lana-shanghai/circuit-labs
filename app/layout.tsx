@@ -46,13 +46,12 @@ export const metadata: Metadata = {
 
   manifest: "/site.webmanifest",
 
-  // ✅ ИСПРАВЛЕНЫ ПУТИ - убрана папка /images/
   openGraph: {
     title: "CircuitLabs - Quantum Resistant Blockchain Solutions",
     description: "Build secure blockchains with zero-knowledge proofs and quantum-resistant cryptography. Advanced security for Web3 and decentralized systems.",
     images: [
       {
-        url: "/telegram-preview.png", // Файл должен быть в public/telegram-preview.png
+        url: "/og-preview.png",
         width: 1200,
         height: 630,
         alt: "CircuitLabs - Quantum Resistant Blockchain Solutions",
@@ -65,17 +64,14 @@ export const metadata: Metadata = {
   },
 
   twitter: {
-    card: "summary_large_image", 
+    card: "summary_large_image",
     creator: "@circuitlabs",
     title: "CircuitLabs - Quantum Resistant Blockchain Solutions",
     description: "Build secure blockchains with zero-knowledge proofs and quantum-resistant cryptography.",
-    images: ["/telegram-preview.png"], // ✅ Файл в public/telegram-preview.png
+    images: ["/og-preview.png"],
   },
 
-  // ✅ ИСПРАВЛЕНЫ ПУТИ
   other: {
-    "og:logo": `${siteUrl}/telegram-preview.png`,
-    "twitter:logo": `${siteUrl}/telegram-preview.png`,
     "og:image:type": "image/png",
     "og:image:width": "1200",
     "og:image:height": "630",

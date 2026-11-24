@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="mark" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#5ee7ff"/>
+      <stop offset="45%" stop-color="#6a8cff"/>
+      <stop offset="100%" stop-color="#e056d8"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="46%" r="42%">
+      <stop offset="0%" stop-color="#1a2744" stop-opacity="0.9"/>
+      <stop offset="55%" stop-color="#0d1220" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#0a0c16" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="#0a0c16"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <!-- Logo mark, centered above the wordmark -->
+  <g transform="translate(600 268)" fill="none" stroke="url(#mark)" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="0" cy="12" r="118" stroke-width="7"/>
+    <!-- vertical axis -->
+    <line x1="0" y1="130" x2="0" y2="-118" stroke-width="7"/>
+    <!-- arrow head -->
+    <path d="M0 -148 L18 -118 L-18 -118 Z" fill="url(#mark)" stroke="none"/>
+    <!-- equator curve -->
+    <path d="M-118 12 C-70 78, 70 78, 118 12" stroke-width="7"/>
+  </g>
+
+  <text
+    x="600"
+    y="500"
+    text-anchor="middle"
+    font-family="Inter, Helvetica Neue, Arial, sans-serif"
+    font-size="64"
+    font-weight="600"
+    letter-spacing="0.04em"
+    fill="#e8eef8"
+  >CircuitLabs</text>
+  <text
+    x="600"
+    y="548"
+    text-anchor="middle"
+    font-family="Inter, Helvetica Neue, Arial, sans-serif"
+    font-size="26"
+    font-weight="400"
+    letter-spacing="0.08em"
+    fill="#8fa0b8"
+  >Quantum-resistant cryptography</text>
+</svg>
